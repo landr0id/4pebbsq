@@ -11,10 +11,10 @@ PBL_APP_INFO(MY_UUID,
              APP_INFO_STANDARD_APP);
 
 typedef struct {
-  char* id;
-	char* name;
-	char* distance;
-	char* people_here;
+  char id[25];
+	char name[50];
+	char distance[10];
+	char people_here[10];
 } FsqVenue;
 
 typedef struct {
@@ -65,10 +65,14 @@ void receive(DictionaryIterator *received, void *context) {
 	char* action = dict_find(received, 0)->value->cstring;
 	MenuLib *menu = &menu_stack[0];
 	if (strcmp(action, (char*)"add_venue") == 0) {
-		menu->venues[current_id].id = dict_find(received, 1)->value->cstring;
-		menu->venues[current_id].name = dict_find(received, 2)->value->cstring;
-		menu->venues[current_id].distance = dict_find(received, 3)->value->cstring;
-		enu->venues[current_id].people_here = dict_find(received, 4)->value->cstring;
+		memset(&(menu->venues[current_id].id), 0, 25);
+		memset(&(menu->venues[current_id].name), 0, 50);
+		memset(&(menu->venues[current_id].distance), 0, 10);
+		memset(&(menu->venues[current_id].people_here), 0, 10);
+		memcpy(&(menu->venues[current_id].id), dict_find(received, 1)->value->cstring, 24);
+		memcpy(&(menu->venues[current_id].name), dict_find(received, 2)->value->cstring, 49);
+		memcpy(&(menu->venues[current_id].distance), dict_find(received, 3)->value->cstring, 9);
+		memcpy(&(menu->venues[current_id].people_here), dict_find(received, 4)->value->cstring, 9);
 		send_message("fur realz", menu->venues[current_id].id);
 		current_id ++;
 	}
