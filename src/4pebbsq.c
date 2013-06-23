@@ -65,14 +65,10 @@ void receive(DictionaryIterator *received, void *context) {
 	char* action = dict_find(received, 0)->value->cstring;
 	MenuLib *menu = &menu_stack[0];
 	if (strcmp(action, (char*)"add_venue") == 0) {
-		memset(menu->venues[current_id].id, 0, 25);
-		memset(menu->venues[current_id].name, 0, 25);
-		memset(menu->venues[current_id].distance, 0, 25);
-		memset(menu->venues[current_id].people_here, 0, 25);
-		memcpy(menu->venues[current_id].id, &dict_find(received, 1)->value->cstring, 24);
-		memcpy(menu->venues[current_id].name, &dict_find(received, 2)->value->cstring, 24);
-		memcpy(menu->venues[current_id].distance, &dict_find(received, 3)->value->cstring, 24);
-		memcpy(menu->venues[current_id].people_here, &dict_find(received, 4)->value->cstring, 24);
+		menu->venues[current_id].id = dict_find(received, 1)->value->cstring;
+		menu->venues[current_id].name = dict_find(received, 2)->value->cstring;
+		menu->venues[current_id].distance = dict_find(received, 3)->value->cstring;
+		enu->venues[current_id].people_here = dict_find(received, 4)->value->cstring;
 		send_message("fur realz", menu->venues[current_id].id);
 		current_id ++;
 	}
